@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "aGP7E1Kkh/3MZsh+OrRGHZq67IuoA4Ts2NWLQeSRrs4=",
+  "Source": "POS-ApiServer",
+  "BasePath": "_content/POS-ApiServer",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

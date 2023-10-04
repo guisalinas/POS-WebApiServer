@@ -1,5 +1,8 @@
-﻿namespace POS_ApiServer.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace POS_ApiServer.Models
 {
+    [Table("Customers")]
     public class Customer : Person
     {
         public ICollection<Sale> sales { get; set; }

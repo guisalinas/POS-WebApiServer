@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace POS_ApiServer.Models
 {
+    [Table("Suppliers")]
     public class Supplier : Person
     {
-
+        
         public string? web { get; set; }
 
         [Required]

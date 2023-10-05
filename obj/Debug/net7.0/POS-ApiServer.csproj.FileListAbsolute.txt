@@ -74,3 +74,5 @@ C:\Users\guill\source\repos\POS-App-Prog\POS-ApiServer\obj\Debug\net7.0\refint\P
 C:\Users\guill\source\repos\POS-App-Prog\POS-ApiServer\obj\Debug\net7.0\POS-ApiServer.pdb
 C:\Users\guill\source\repos\POS-App-Prog\POS-ApiServer\obj\Debug\net7.0\POS-ApiServer.genruntimeconfig.cache
 C:\Users\guill\source\repos\POS-App-Prog\POS-ApiServer\obj\Debug\net7.0\ref\POS-ApiServer.dll
+C:\Users\guill\source\repos\POS-App-Prog\POS-ApiServer\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\guill\source\repos\POS-App-Prog\POS-ApiServer\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll

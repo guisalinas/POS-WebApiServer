@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace POS_ApiServer.Models
 {
-    [Table("Suppliers")]
     public class Supplier : Person
     {
         

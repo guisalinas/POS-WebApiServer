@@ -11,7 +11,7 @@ namespace POS_ApiServer.Models
         [Required]
         public int quantity { get; set; }
         [Required]
-        public decimal price { get; set; }
+        public decimal unitPrice { get; set; }
 
         public int saleId { get; set; }
         public Sale sale { get; set; }
@@ -21,10 +21,10 @@ namespace POS_ApiServer.Models
 
         public SaleDetail() { }
 
-        public SaleDetail(int quantity, decimal price)
+        public SaleDetail(int quantity, decimal unitPrice)
         {
             this.quantity = quantity;
-            this.price = price;
+            this.unitPrice = unitPrice;
         }
     }
 }

@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using POS_ApiServer.Data;
+using POS_ApiServer.Services.Implements;
+using POS_ApiServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,11 @@ builder.Services.AddDbContext<DBContext>(options =>
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//POS-ApiServer Services
+builder.Services.AddScoped<IProductService, ProductService>();
+
+builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 var app = builder.Build();
 

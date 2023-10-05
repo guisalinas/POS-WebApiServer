@@ -18,21 +18,20 @@ namespace POS_ApiServer.Models
         [Required]
         public int currentStock { get; set; }
 
-        public int supplierId { get; set; }
-        public Supplier supplier { get; set; }
+        public int? supplierId { get; set; }
+        public virtual Supplier supplier { get; set; }
 
-        public ICollection<SaleDetail> saleDetails { get; set; }
+        public virtual ICollection<SaleDetail> saleDetails { get; set; }
 
         public Product() { }
 
-        public Product(string name, string productCode, string? description, decimal currentPrice, int currentStock, int supplierId)
+        public Product(string name, string productCode, string? description, decimal currentPrice, int currentStock)
         {
             this.name = name;
             this.productCode = productCode;
             this.description = description;
             this.currentPrice = currentPrice;
             this.currentStock = currentStock;
-            this.supplierId = supplierId;
         }
     }
 }

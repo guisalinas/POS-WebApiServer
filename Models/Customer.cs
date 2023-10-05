@@ -2,7 +2,6 @@
 
 namespace POS_ApiServer.Models
 {
-    [Table("Customers")]
     public class Customer : Person
     {
         public ICollection<Sale> sales { get; set; }

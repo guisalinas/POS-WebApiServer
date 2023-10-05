@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using POS_ApiServer.Data;
 
@@ -11,9 +12,11 @@ using POS_ApiServer.Data;
 namespace POS_ApiServer.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20231004142449_change nulleable supplierID")]
+    partial class changenulleablesupplierID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,10 +66,6 @@ namespace POS_ApiServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("dni")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -89,9 +88,7 @@ namespace POS_ApiServer.Migrations
 
                     b.ToTable("Persons");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Person");
-
-                    b.UseTphMappingStrategy();
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("POS_ApiServer.Models.Product", b =>
@@ -195,7 +192,7 @@ namespace POS_ApiServer.Migrations
                     b.Property<int>("tieredType")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("Customer");
+                    b.ToTable("Customers");
                 });
 
             modelBuilder.Entity("POS_ApiServer.Models.Supplier", b =>
@@ -209,7 +206,7 @@ namespace POS_ApiServer.Migrations
                     b.Property<string>("web")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasDiscriminator().HasValue("Supplier");
+                    b.ToTable("Suppliers");
                 });
 
             modelBuilder.Entity("POS_ApiServer.Models.Address", b =>
@@ -260,6 +257,24 @@ namespace POS_ApiServer.Migrations
                     b.Navigation("product");
 
                     b.Navigation("sale");
+                });
+
+            modelBuilder.Entity("POS_ApiServer.Models.Customer", b =>
+                {
+                    b.HasOne("POS_ApiServer.Models.Person", null)
+                        .WithOne()
+                        .HasForeignKey("POS_ApiServer.Models.Customer", "id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("POS_ApiServer.Models.Supplier", b =>
+                {
+                    b.HasOne("POS_ApiServer.Models.Person", null)
+                        .WithOne()
+                        .HasForeignKey("POS_ApiServer.Models.Supplier", "id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("POS_ApiServer.Models.Person", b =>

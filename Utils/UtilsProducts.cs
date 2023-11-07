@@ -11,7 +11,7 @@ namespace POS_ApiServer.Utils
             do
             {
                numberCode = GetRandomNumber();
-            } while (await productService.ExistsByProductCode(numberCode));
+            } while (await productService.ExistsByProductCodeAsync(numberCode));
 
             var productCode = $"{prefix}-{numberCode}";
             Console.WriteLine(productCode);

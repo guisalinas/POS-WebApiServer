@@ -20,7 +20,7 @@ namespace POS_ApiServer.Controllers
         {
             try
             {
-                var productList = await _productService.GetProducts();
+                var productList = await _productService.GetProductsAsync();
                 
                 if (productList.Any() )
                 {
@@ -42,7 +42,7 @@ namespace POS_ApiServer.Controllers
         {
             try
             {
-                var product = await _productService.GetProductById(id);
+                var product = await _productService.GetProductByIdAsync(id);
                
                 if (product == null){
                     return Ok("There is no product with that ID");
@@ -62,7 +62,7 @@ namespace POS_ApiServer.Controllers
         {
             try
             {
-                var newProduct = await _productService.AddProduct(productDTO);
+                var newProduct = await _productService.AddProductAsync(productDTO);
                 
                 if (newProduct == null) {
                     return BadRequest("Oops! The product could not be created" );
@@ -82,7 +82,7 @@ namespace POS_ApiServer.Controllers
         {
             try
             {
-                var product = await _productService.UpdateProduct(updateProductDTO);
+                var product = await _productService.UpdateProductAsync(updateProductDTO);
 
                 if (product)
                 {
@@ -106,7 +106,7 @@ namespace POS_ApiServer.Controllers
         {
             try
             {
-                var product = await _productService.LogicalDeleteProduct(deleteProductDTO);
+                var product = await _productService.LogicalDeleteProductAsync(deleteProductDTO);
                 
                 if (product)
                 {

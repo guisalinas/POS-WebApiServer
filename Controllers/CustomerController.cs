@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using POS_ApiServer.DTOs.Customer;
+using POS_ApiServer.DTOs.Product;
 using POS_ApiServer.Services;
+using POS_ApiServer.Services.Implements;
 
 
 namespace POS_ApiServer.Controllers
@@ -80,7 +82,6 @@ namespace POS_ApiServer.Controllers
             }
         }
 
-
         [HttpPut("/customer/detete")]
         public async Task<IActionResult> LogicDeleteCustomer([FromBody] LogicalDeleteCustomerDTO deleteCustomerDTO)
         {
@@ -106,7 +107,7 @@ namespace POS_ApiServer.Controllers
         }
 
         [HttpPut("/customer/recover")]
-        public async Task<IActionResult> RecoverProduct([FromBody] LogicalDeleteCustomerDTO recoverCustomerDTO)
+        public async Task<IActionResult> RecoverCustomer([FromBody] LogicalDeleteCustomerDTO recoverCustomerDTO)
         {
             try
             {
@@ -130,8 +131,29 @@ namespace POS_ApiServer.Controllers
         }
 
 
+        [HttpPut("/customer/update")]
+        public async Task<IActionResult> UpdateCustomer([FromBody] UpdateCustomerDTO updatecustomerDTO)
+        {
+            try
+            {
+                var customer = await _customerService.UpdateCustomerAsync(updatecustomerDTO);
 
+                if (customer)
+                {
+                    return Ok("The customer has been updated succesfully");
+                }
+                else
+                {
+                    return BadRequest("Oops! The customer has been not updated.");
+                }
 
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Excepción interna: " + ex.InnerException?.Message);
+                throw new Exception(ex.Message);
+            }
+        }
 
     }
 }

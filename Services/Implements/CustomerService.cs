@@ -3,6 +3,7 @@ using POS_ApiServer.DTOs.Customer;
 
 using POS_ApiServer.Models;
 using POS_ApiServer.Repositories;
+using POS_ApiServer.Repositories.Implements;
 
 
 namespace POS_ApiServer.Services.Implements
@@ -108,6 +109,31 @@ namespace POS_ApiServer.Services.Implements
                 {
                     return false;
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> UpdateCustomerAsync(UpdateCustomerDTO updateCustomerDTO)
+        {
+            try
+            {
+                var customer = await _customerRepository.GetByIdAsync(updateCustomerDTO.id);
+
+                if (customer != null)
+                {
+                    _mapper.Map(updateCustomerDTO, customer);
+
+                    return await _customerRepository.UpdateAsync(customer);
+                }
+
+                else
+                {
+                    return false;
+                }
+
             }
             catch (Exception ex)
             {

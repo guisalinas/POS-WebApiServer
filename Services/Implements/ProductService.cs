@@ -20,7 +20,7 @@ namespace POS_ApiServer.Services.Implements
             this._productRepository = productRepository;
         }
 
-        public async Task<List<GetProductDTO>> GetProducts()
+        public async Task<List<GetProductDTO>> GetProductsAsync()
         {
             try
             {
@@ -35,7 +35,7 @@ namespace POS_ApiServer.Services.Implements
 
         }
 
-        public async Task<ProductDTO> AddProduct(ProductDTO productDTO)
+        public async Task<ProductDTO> AddProductAsync(ProductDTO productDTO)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace POS_ApiServer.Services.Implements
             }
         }
              
-        public async Task<bool> LogicalDeleteProduct(LogicalDeleteProductDTO deleteProductDTO)
+        public async Task<bool> LogicalDeleteProductAsync(LogicalDeleteProductDTO deleteProductDTO)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace POS_ApiServer.Services.Implements
             }
         }
 
-        public async Task<ProductDTO> GetProductById(long id)
+        public async Task<ProductDTO> GetProductByIdAsync(long id)
         {
             try
             {
@@ -99,7 +99,7 @@ namespace POS_ApiServer.Services.Implements
             }
         }
 
-        public async Task<bool> UpdateProduct(UpdateProductDTO updateProductDTO)
+        public async Task<bool> UpdateProductAsync(UpdateProductDTO updateProductDTO)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace POS_ApiServer.Services.Implements
             }
         }
 
-        public async Task<bool> ExistsByProductCode(string productCode)
+        public async Task<bool> ExistsByProductCodeAsync(string productCode)
         {
             try
             {

@@ -1,18 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
+﻿
 namespace POS_ApiServer.Models
 {
     public class Customer : Person
     {
-        public ICollection<Sale> sales { get; set; }
-        public TieredType tieredType { get; set; }
+        public ICollection<Sale> sales { get; set; } = new List<Sale>();
+        public TieredType tieredType { get; set; } = TieredType.CLASSIC;
 
         public Customer() { }
-        public Customer(string name, string surname, string email, string phoneNumber, ICollection<Address> addresses, ICollection<Sale> sales, TieredType tieredType) : base(name, surname, email, phoneNumber, addresses)
+        public Customer(string name, string surname, string email, string phoneNumber) : base(name, surname, email, phoneNumber)
         {
-            this.sales = sales;
-            this.tieredType = tieredType;
-
         }
     }
 }

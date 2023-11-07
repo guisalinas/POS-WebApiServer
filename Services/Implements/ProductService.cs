@@ -1,32 +1,96 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using POS_ApiServer.Data;
+using Microsoft.EntityFrameworkCore;
 using POS_ApiServer.DTOs.Product;
 using POS_ApiServer.Models;
+using POS_ApiServer.Repositories;
+using POS_ApiServer.Repositories.Implements;
 
 namespace POS_ApiServer.Services.Implements
 {
     public class ProductService : IProductService
     {
-        private DBContext _DBContext;
         private IMapper _mapper;
 
-        public ProductService(DBContext dbContext, IMapper mapper)
+        private IProductRepository _productRepository;
+
+        public ProductService(IProductRepository productRepository, IMapper mapper)
         {
-            _DBContext = dbContext;
-            _mapper = mapper;
+            this._mapper = mapper;
+            this._productRepository = productRepository;
         }
 
-        public async Task<addProductDTO> AddProduct(addProductDTO productDTO)
+        public async Task<List<GetProductDTO>> GetProducts()
         {
             try
             {
-                var product = _mapper.Map<Product>(productDTO);
+                var products = await _productRepository.GetAllAsync();
+                var productsDTOList = _mapper.Map<List<GetProductDTO>>(products);
+                return productsDTOList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
-                _DBContext.Products.Add(product);
-                await _DBContext.SaveChangesAsync();
+        }
 
-                return productDTO;
+        public async Task<ProductDTO> AddProduct(ProductDTO productDTO)
+        {
+            try
+            {
+
+                var product = await _productRepository.AddAsync( _mapper.Map<Product>(productDTO) );              
+
+                return _mapper.Map<ProductDTO>(product);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+             
+        public async Task<bool> LogicalDeleteProduct(LogicalDeleteProductDTO deleteProductDTO)
+        {
+            try
+            {
+               
+                var product = await _productRepository.GetByIdAsync(deleteProductDTO.id);
+
+                if (product != null)
+                {
+                    _mapper.Map(deleteProductDTO, product);
+                    return await _productRepository.LogicalDeleteAsync(product);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<ProductDTO> GetProductById(long id)
+        {
+            try
+            {
+                var product = await _productRepository.GetByIdAsync(id);
+
+
+                if (product != null)
+                {
+                    var productDTO = _mapper.Map<ProductDTO>(product);
+
+                    return productDTO;
+                }
+                else
+                {
+                    return null;
+                }
 
             }
             catch (Exception ex)
@@ -35,31 +99,68 @@ namespace POS_ApiServer.Services.Implements
             }
         }
 
-        public async Task<bool> UpdateProduct(updateProductDTO productDTO, long id)
+        public async Task<bool> UpdateProduct(UpdateProductDTO updateProductDTO)
         {
             try
             {
-               var productToUpdate = await _DBContext.Products.FindAsync(id);
                 
-                if (productToUpdate != null) {
-                    var product = _mapper.Map(productDTO, productToUpdate);
-
-                    _DBContext.Products.Update(product);
-
-                    await _DBContext.SaveChangesAsync();
-
-                    return true;
-                }else 
-                { 
-                    return false; 
+                var product = await _productRepository.GetByIdAsync(updateProductDTO.id);
                 
-                } 
-                
+                if ( product != null )
+                {
+                    _mapper.Map(updateProductDTO, product);
+
+                    return await _productRepository.UpdateAsync(product);
+                }
+
+                else
+                {
+                    return false;
+                }
+
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<bool> RecoverProductAsync(LogicalDeleteProductDTO recoverProductDTO)
+        {
+            try
+            {
+                var product = await _productRepository.GetByIdAsync(recoverProductDTO.id);
+
+                if (product != null)
+                {
+                    _mapper.Map(recoverProductDTO, product);
+                    return await _productRepository.RecoverAsync(product);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public async Task<bool> ExistsByProductCode(string productCode)
+        {
+            try
+            {
+                return await _productRepository.ExistsByProductCode(productCode);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
     }
+
 }

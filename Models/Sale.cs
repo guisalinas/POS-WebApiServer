@@ -15,6 +15,7 @@ namespace POS_ApiServer.Models
         [Required]
         public int ticketNumber { get; set; }
         public decimal? discount { get; set; }
+        public bool isDeleted { get; set; } = false;
 
         public ICollection<SaleDetail> saleDetails { get; set; }
 

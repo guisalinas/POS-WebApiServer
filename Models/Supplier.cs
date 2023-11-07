@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+
 
 namespace POS_ApiServer.Models
 {
@@ -11,13 +11,14 @@ namespace POS_ApiServer.Models
         [Required]
         public string tradeName { get; set; }
 
-        public ICollection<Product> products { get; set; }
+        public ICollection<Product> products { get; set; } = new List<Product>();
 
         public Supplier() { }
 
-        public Supplier(string name, string surname, string email, string phoneNumber, ICollection<Address> addresses, string web) : base(name, surname, email, phoneNumber, addresses)
+        public Supplier(string name, string surname, string email, string phoneNumber, string web, string tradeName) : base(name, surname, email, phoneNumber)
         {
             this.web = web;
+            this.tradeName = tradeName;
         }
     }
 }

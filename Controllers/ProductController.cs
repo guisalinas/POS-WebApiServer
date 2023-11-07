@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using POS_ApiServer.DTOs.Product;
 using POS_ApiServer.Services;
 
@@ -15,33 +14,84 @@ namespace POS_ApiServer.Controllers
          {
              this._productService = productService;
          }
-  
 
-        [HttpPost("/product")]
-        public async Task<IActionResult> AddProduct([FromBody] addProductDTO productDTO)
+        [HttpGet("/products")]
+        public async Task<IActionResult> GetProducts()
         {
             try
             {
-                await _productService.AddProduct(productDTO);
+                var productList = await _productService.GetProducts();
+                
+                if (productList.Any() )
+                {
+                    return Ok(productList);
+                }
+                else
+                {
+                    return Ok("No products ar available yet");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
-                return Ok();
+        [HttpGet("/products/{id}")]
+        public async Task<IActionResult> GetProduct([FromRoute] long id)
+        {
+            try
+            {
+                var product = await _productService.GetProductById(id);
+               
+                if (product == null){
+                    return Ok("There is no product with that ID");
+                }
+
+                return Ok(product);
 
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
         }
 
-        [HttpPut("/product/update")]
-        public async Task<IActionResult> UpdateProduct([FromBody] updateProductDTO productDTO, long id)
+        [HttpPost("/product")]
+        public async Task<IActionResult> AddProduct([FromBody] ProductDTO productDTO)
         {
             try
             {
-                await _productService.UpdateProduct(productDTO, id);
+                var newProduct = await _productService.AddProduct(productDTO);
+                
+                if (newProduct == null) {
+                    return BadRequest("Oops! The product could not be created" );
+                }
 
-                return Ok("The product has been updated succesfully");
+                return Ok(newProduct);               
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpPut("/product/update")]
+        public async Task<IActionResult> UpdateProduct([FromBody] UpdateProductDTO updateProductDTO)
+        {
+            try
+            {
+                var product = await _productService.UpdateProduct(updateProductDTO);
+
+                if (product)
+                {
+                    return Ok("The product has been updated succesfully");
+                }
+                else
+                {
+                    return BadRequest("Oops! The product has been not updated.");
+                }
 
             }
             catch (Exception ex)
@@ -51,5 +101,52 @@ namespace POS_ApiServer.Controllers
             }
         }
 
+        [HttpPut("/product/detete")]
+        public async Task<IActionResult> LogicDeleteProduct([FromBody] LogicalDeleteProductDTO deleteProductDTO)
+        {
+            try
+            {
+                var product = await _productService.LogicalDeleteProduct(deleteProductDTO);
+                
+                if (product)
+                {
+                    return Ok("The product has been deleted");
+                }
+                else
+                {
+                    return BadRequest("Oops! There was an error in deleting the product");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Excepción interna: " + ex.InnerException?.Message);
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpPut("/product/recover")]
+        public async Task<IActionResult> RecoverProduct([FromBody] LogicalDeleteProductDTO recoverProductDTO)
+        {
+            try
+            {
+                var product = await _productService.RecoverProductAsync(recoverProductDTO);
+
+                if (product)
+                {
+                    return Ok("The product has been recovered");
+                }
+                else
+                {
+                    return BadRequest("Oops! There was an error in revocer the product");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Excepción interna: " + ex.InnerException?.Message);
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

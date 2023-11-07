@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
+
 namespace POS_ApiServer.Models
 {
     public class Product
@@ -18,10 +19,11 @@ namespace POS_ApiServer.Models
         [Required]
         public int currentStock { get; set; }
 
-        public int? supplierId { get; set; }
-        public virtual Supplier supplier { get; set; }
+        public bool isDeleted { get; set; } = false;
 
-        public virtual ICollection<SaleDetail> saleDetails { get; set; }
+        public Supplier? supplier { get; set; }
+
+        public ICollection<SaleDetail> saleDetails { get; set; }
 
         public Product() { }
 

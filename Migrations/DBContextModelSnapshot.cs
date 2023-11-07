@@ -17,7 +17,7 @@ namespace POS_ApiServer.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.11")
+                .HasAnnotation("ProductVersion", "7.0.12")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -30,12 +30,12 @@ namespace POS_ApiServer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<int>("PersonId")
-                        .HasColumnType("int");
-
                     b.Property<string>("city")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("personid")
+                        .HasColumnType("int");
 
                     b.Property<string>("street")
                         .IsRequired()
@@ -50,7 +50,7 @@ namespace POS_ApiServer.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("PersonId");
+                    b.HasIndex("personid");
 
                     b.ToTable("Address");
                 });
@@ -73,6 +73,9 @@ namespace POS_ApiServer.Migrations
 
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("name")
                         .IsRequired()
@@ -111,6 +114,9 @@ namespace POS_ApiServer.Migrations
                     b.Property<string>("description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -119,12 +125,12 @@ namespace POS_ApiServer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("supplierId")
+                    b.Property<int?>("supplierid")
                         .HasColumnType("int");
 
                     b.HasKey("id");
 
-                    b.HasIndex("supplierId");
+                    b.HasIndex("supplierid");
 
                     b.ToTable("Products");
                 });
@@ -148,6 +154,9 @@ namespace POS_ApiServer.Migrations
 
                     b.Property<decimal?>("discount")
                         .HasColumnType("decimal(18,2)");
+
+                    b.Property<bool>("isDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<int>("ticketNumber")
                         .HasColumnType("int");
@@ -216,7 +225,7 @@ namespace POS_ApiServer.Migrations
                 {
                     b.HasOne("POS_ApiServer.Models.Person", "person")
                         .WithMany("addresses")
-                        .HasForeignKey("PersonId")
+                        .HasForeignKey("personid")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -227,7 +236,7 @@ namespace POS_ApiServer.Migrations
                 {
                     b.HasOne("POS_ApiServer.Models.Supplier", "supplier")
                         .WithMany("products")
-                        .HasForeignKey("supplierId");
+                        .HasForeignKey("supplierid");
 
                     b.Navigation("supplier");
                 });

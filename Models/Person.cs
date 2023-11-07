@@ -11,23 +11,25 @@ namespace POS_ApiServer.Models
             public int id { get; set; }
             [Required]
             public string name { get; set; }
-            [Required]
             public string surname { get; set; }
-            [Required]
             public string dni { get; set; }
             public string? email { get; set; }
-
             public string? phoneNumber { get; set; }
-            public ICollection<Address> addresses { get; set; }
+            public bool isDeleted { get; set; } = false;
+            public ICollection<Address> addresses { get; set; } = new List<Address>();
             public Person() { }
 
-            public Person(string name, string surname, string email, string phoneNumber, ICollection<Address> addresses)
+            public Person(string name, string surname, string email, string phoneNumber)
             {
                 this.name = name;
                 this.surname = surname;
                 this.email = email;
                 this.phoneNumber = phoneNumber;
-                this.addresses = addresses;
+            }
+
+            public void AddAddress(Address address)
+            {
+                addresses.Add(address);
             }
         }
 }

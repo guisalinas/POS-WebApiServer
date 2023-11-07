@@ -16,7 +16,6 @@ namespace POS_ApiServer.Models
         [Required]
         public string city { get; set; }
 
-        public int PersonId { get; set; }
         public Person person { get; set; }
 
         public Address() { }
@@ -29,5 +28,6 @@ namespace POS_ApiServer.Models
             this.city = city;
 
         }
+
     }
 }

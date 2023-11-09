@@ -10,5 +10,6 @@ namespace POS_ApiServer.Repositories
         Task<bool> UpdateAsync(Customer customer);
         Task<bool> LogicalDeleteAsync(Customer customer);
         Task<bool> RecoverAsync(Customer customer);
+        Task<int> SaveAsync();
     }
 }

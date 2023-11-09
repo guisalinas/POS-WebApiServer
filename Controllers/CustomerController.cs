@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using POS_ApiServer.DTOs.Customer;
 using POS_ApiServer.DTOs.Product;
 using POS_ApiServer.Services;
@@ -12,10 +13,12 @@ namespace POS_ApiServer.Controllers
     public class CustomerController : ControllerBase
     {
         private ICustomerService _customerService;
+        private IAddressService _addressService;
 
-        public CustomerController(ICustomerService customerService)
+        public CustomerController(ICustomerService customerService, IAddressService addressService)
         {
             _customerService = customerService;
+            _addressService = addressService;
         }
 
 
@@ -24,6 +27,11 @@ namespace POS_ApiServer.Controllers
         {
             try
             {
+                if (string.IsNullOrEmpty(customerDTO.dni) || string.IsNullOrEmpty(customerDTO.name) || string.IsNullOrEmpty(customerDTO.surname))
+                {
+                    return BadRequest("Some fields are empty. Check them!");
+                }
+
                 var newCustomer = await _customerService.AddCustomerAsync(customerDTO);
 
                 if (newCustomer == null)

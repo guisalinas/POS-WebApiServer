@@ -66,7 +66,6 @@ namespace POS_ApiServer.Repositories.Implements
             {
                 throw new Exception(ex.Message);
             }
-
         }
 
         public async Task<bool> LogicalDeleteAsync(Customer customer)
@@ -95,6 +94,12 @@ namespace POS_ApiServer.Repositories.Implements
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await _dbContext.SaveChangesAsync();
+            
         }
     }
 }

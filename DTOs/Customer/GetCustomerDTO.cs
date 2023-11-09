@@ -1,4 +1,5 @@
-﻿using POS_ApiServer.Models;
+﻿using POS_ApiServer.DTOs.Address;
+using POS_ApiServer.Models;
 
 namespace POS_ApiServer.DTOs.Customer
 {
@@ -12,5 +13,6 @@ namespace POS_ApiServer.DTOs.Customer
         public string? phoneNumber { get; set; }
         public bool isDeleted { get; set; } = false;
         public TieredType tieredType;
+        public ICollection<AddressDTO> addresses { get; set; } = new List<AddressDTO>();
     }
 }

@@ -24,6 +24,9 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IcustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerService, CustomerService>();
 
+builder.Services.AddScoped<IAddressService, AddressService>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

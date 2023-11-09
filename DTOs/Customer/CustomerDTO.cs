@@ -1,4 +1,5 @@
-﻿using POS_ApiServer.Models;
+﻿using POS_ApiServer.DTOs.Address;
+
 
 namespace POS_ApiServer.DTOs.Customer
 {
@@ -9,5 +10,6 @@ namespace POS_ApiServer.DTOs.Customer
         public string dni { get; set; }
         public string? email { get; set; }
         public string? phoneNumber { get; set; }
+        public ICollection<AddressDTO> addresses { get; set; } = new List<AddressDTO>();
     }
 }
